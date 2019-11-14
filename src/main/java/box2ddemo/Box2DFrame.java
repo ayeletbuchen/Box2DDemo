@@ -1,5 +1,7 @@
 package box2ddemo;
 
+import box2ddemo.boxwithballs.BoxWithBalls;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +12,7 @@ public class Box2DFrame extends JFrame {
         setTitle("Box2DDemo");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        add(new Box2DComponent(), BorderLayout.CENTER);
+        add(new BoxWithBalls(), BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
