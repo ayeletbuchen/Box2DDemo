@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class BoxWithBalls extends JComponent {
 
+    static final float BOX_TO_SCREEN = 5f;
+    static final float SCREEN_TO_BOX = 1f / BOX_TO_SCREEN;
     private long startTime;
     private final World world;
     private Box box;
@@ -31,12 +33,18 @@ public class BoxWithBalls extends JComponent {
         long currentTime = System.currentTimeMillis();
         world.step((currentTime - startTime) / 1000f,6, 2);
         startTime = currentTime;
-        graphics.fillRect((int) box.top.getPosition().x, (int) box.top.getPosition().y, (int) box.width, 1);
-        graphics.fillRect((int) box.bottom.getPosition().x, (int) box.bottom.getPosition().y, (int) box.width, 1);
-        graphics.fillRect((int) box.left.getPosition().x, (int) box.left.getPosition().y, 1, (int) box.height);
-        graphics.fillRect((int) box.right.getPosition().x, (int) box.right.getPosition().y, 1, (int) box.height);
+        graphics.fillRect(Math.round(box.top.getPosition().x * BOX_TO_SCREEN),
+                Math.round(box.top.getPosition().y * BOX_TO_SCREEN), (int) box.width, 1);
+        graphics.fillRect(Math.round(box.bottom.getPosition().x * BOX_TO_SCREEN),
+                Math.round(box.bottom.getPosition().y * BOX_TO_SCREEN), (int) box.width, 1);
+        graphics.fillRect(Math.round(box.left.getPosition().x * BOX_TO_SCREEN),
+                Math.round(box.left.getPosition().y * BOX_TO_SCREEN), 1, (int) box.height);
+        graphics.fillRect(Math.round(box.right.getPosition().x * BOX_TO_SCREEN),
+                Math.round(box.right.getPosition().y * BOX_TO_SCREEN), 1, (int) box.height);
         for (Ball ball : balls) {
-            graphics.fillOval((int) ball.ball.getPosition().x, (int) ball.ball.getPosition().y, ball.radius, ball.radius);
+            graphics.fillOval(Math.round(ball.ball.getPosition().x * BOX_TO_SCREEN) - ball.radius,
+                    Math.round(ball.ball.getPosition().y * BOX_TO_SCREEN) - ball.radius,
+                    ball.radius * 2, ball.radius * 2);
         }
         repaint();
     }

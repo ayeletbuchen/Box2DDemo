@@ -29,7 +29,7 @@ public class Box {
 
     private Body createBody(float xCoordinate, float yCoordinate) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(new Vector2(xCoordinate, yCoordinate));
+        bodyDef.position.set(new Vector2(xCoordinate * BoxWithBalls.SCREEN_TO_BOX, yCoordinate * BoxWithBalls.SCREEN_TO_BOX));
         bodyDef.type = BodyDef.BodyType.StaticBody;
         return world.createBody(bodyDef);
     }
@@ -39,9 +39,9 @@ public class Box {
         PolygonShape shape = new PolygonShape();
 
         if (wall == top || wall == bottom) {
-            shape.setAsBox(width, 1);
+            shape.setAsBox(width * BoxWithBalls.SCREEN_TO_BOX, 1 * BoxWithBalls.SCREEN_TO_BOX);
         } else {
-            shape.setAsBox(1, height);
+            shape.setAsBox(1 * BoxWithBalls.SCREEN_TO_BOX, height * BoxWithBalls.SCREEN_TO_BOX);
         }
         fixtureDef.shape = shape;
         fixtureDef.restitution = 1;

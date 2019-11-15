@@ -24,7 +24,7 @@ public class Ball {
 
     private Body createBall() {
         BodyDef ballDef = new BodyDef();
-        ballDef.position.set(new Vector2(xCoordinate, yCoordinate));
+        ballDef.position.set(new Vector2(xCoordinate * BoxWithBalls.SCREEN_TO_BOX, yCoordinate * BoxWithBalls.SCREEN_TO_BOX));
         ballDef.type = BodyDef.BodyType.DynamicBody;
         return world.createBody(ballDef);
     }
@@ -32,10 +32,10 @@ public class Ball {
     private void createFixture() {
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(radius);
+        shape.setRadius(radius * BoxWithBalls.SCREEN_TO_BOX);
         fixtureDef.shape = shape;
-        fixtureDef.restitution = 1;
+        fixtureDef.restitution = 1f;
         ball.createFixture(fixtureDef);
-        ball.applyForceToCenter(forceX, forceY, true);
+        ball.applyForceToCenter(forceX * BoxWithBalls.SCREEN_TO_BOX, forceY * BoxWithBalls.SCREEN_TO_BOX, true);
     }
 }
