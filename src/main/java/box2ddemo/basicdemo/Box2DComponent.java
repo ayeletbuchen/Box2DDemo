@@ -1,5 +1,6 @@
 package box2ddemo.basicdemo;
 
+import box2ddemo.Box2DRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import javax.swing.*;
@@ -13,10 +14,12 @@ public class Box2DComponent extends JComponent {
     private final World world;
     private Body ball;
     private Body ground;
+    private Box2DRenderer renderer;
 
     public Box2DComponent() {
         World.setVelocityThreshold(0);
         world = new World(new Vector2(0, 9.8f * SCREEN_TO_BOX), false);
+        renderer = new Box2DRenderer(world, BOX_TO_SCREEN);
         createGround();
         createBall();
         startTime = System.currentTimeMillis();
@@ -57,9 +60,7 @@ public class Box2DComponent extends JComponent {
         long currentTime = System.currentTimeMillis();
         world.step((currentTime - startTime) / 1000f,6, 2);
         startTime = currentTime;
-        // int radius = (int) (ball.getFixtureList().get(0).getShape() * BOX_TO_SCREEN);
-        graphics.fillOval((int) (ball.getPosition().x * BOX_TO_SCREEN), (int) (ball.getPosition().y * BOX_TO_SCREEN), 20, 20);
-        graphics.fillRect((int) (ground.getPosition().x * BOX_TO_SCREEN), (int) (ground.getPosition().y * BOX_TO_SCREEN), 900, 1);
+        renderer.render((Graphics2D) graphics);
         repaint();
     }
 }

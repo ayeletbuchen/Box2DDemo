@@ -1,5 +1,6 @@
 package box2ddemo.boxwithballs;
 
+import box2ddemo.Box2DRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import javax.swing.*;
@@ -14,10 +15,12 @@ public class BoxWithBalls extends JComponent {
     private final World world;
     private Box box;
     private ArrayList<Ball> balls;
+    private Box2DRenderer renderer;
 
     public BoxWithBalls() {
         World.setVelocityThreshold(0);
         world = new World(new Vector2(0, 9.8f), false);
+        renderer = new Box2DRenderer(world, BOX_TO_SCREEN);
         box = new Box(world, 100f, 100f, 300f, 300f);
         balls = new ArrayList<Ball>();
         balls.add(new Ball(world, 30, 50, 50, 105, 105));
@@ -33,19 +36,7 @@ public class BoxWithBalls extends JComponent {
         long currentTime = System.currentTimeMillis();
         world.step((currentTime - startTime) / 1000f,6, 2);
         startTime = currentTime;
-        graphics.fillRect(Math.round(box.top.getPosition().x * BOX_TO_SCREEN),
-                Math.round(box.top.getPosition().y * BOX_TO_SCREEN), (int) box.width, 1);
-        graphics.fillRect(Math.round(box.bottom.getPosition().x * BOX_TO_SCREEN),
-                Math.round(box.bottom.getPosition().y * BOX_TO_SCREEN), (int) box.width, 1);
-        graphics.fillRect(Math.round(box.left.getPosition().x * BOX_TO_SCREEN),
-                Math.round(box.left.getPosition().y * BOX_TO_SCREEN), 1, (int) box.height);
-        graphics.fillRect(Math.round(box.right.getPosition().x * BOX_TO_SCREEN),
-                Math.round(box.right.getPosition().y * BOX_TO_SCREEN), 1, (int) box.height);
-        for (Ball ball : balls) {
-            graphics.fillOval(Math.round(ball.ball.getPosition().x * BOX_TO_SCREEN) - ball.radius,
-                    Math.round(ball.ball.getPosition().y * BOX_TO_SCREEN) - ball.radius,
-                    ball.radius * 2, ball.radius * 2);
-        }
+        renderer.render((Graphics2D) graphics);
         repaint();
     }
 }
